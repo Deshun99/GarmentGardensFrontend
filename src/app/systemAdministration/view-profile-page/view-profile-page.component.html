@@ -1,0 +1,336 @@
+<div>
+    <h2>My Profile</h2>
+    <p> Manage Your Profile</p>
+
+    <hr style="opacity: 0.1" />
+
+    <form #updateProfileForm="ngForm" (ngSubmit)="updateProfile(updateProfileForm)" class="updateProfileForm">
+        <div *ngIf="resultError == true" class="boxErrorMessage">
+            {{message}}
+        </div>
+        <div *ngIf="resultSuccess == true" class="boxSuccessMessage">
+            {{message}}
+        </div>
+        <table width="50%">
+            <tr>
+                <td width="50%" style="font-weight: bold;">Username</td>
+                <td width="30%">
+                    <input #username="ngModel" id="username" name="username" type="text" [(ngModel)]="currUser.username"
+                        required pInputText disabled />
+                </td>
+            </tr>
+            <tr>
+                <td width="50%" style="font-weight: bold;">First Name</td>
+                <td width="30%">
+                    <input #firstName="ngModel" id="firstName" type="text" name="firstName"
+                        [(ngModel)]="currUser.firstName" required pInputText />
+                </td>
+                <td>
+                    <div *ngIf="
+                            firstName.invalid && (firstName.dirty || firstName.touched || submitted)"
+                        class="errorText">
+                        <div *ngIf="firstName.errors?.['required']" class="errorMessage">
+                            First Name is required.
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%" style="font-weight: bold;">Last Name</td>
+                <td width="30%">
+                    <input #lastName="ngModel" id="lastName" name="lastName" type="text" [(ngModel)]="currUser.lastName"
+                        required pInputText />
+                </td>
+                <td>
+                    <div *ngIf="
+                                lastName.invalid &&
+                                (lastName.dirty || lastName.touched || submitted)" class="errorText">
+                        <div *ngIf="lastName.errors != null" class="errorMessage">
+                            First Name is required.
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%" style="font-weight: bold;">Email</td>
+                <td width="30%">
+                    <input #email="ngModel" id="email" name="email" type="text" [(ngModel)]="currUser.email" required
+                        pInputText />
+                </td>
+                <td>
+                    <div *ngIf="
+                            email.invalid && (email.dirty || email.touched || submitted)" class="errorText">
+                        <div *ngIf="email.errors != null" class="errorMessage">
+                            Email is required.
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%" style="font-weight: bold;">Address</td>
+                <td width="30%">
+                    <input #address="ngModel" id="address" name="address" type="text" [(ngModel)]="currUser.address"
+                        required pInputText />
+                </td>
+                <td>
+                    <div *ngIf="
+                    address.invalid && (address.dirty || address.touched || submitted)" class="errorText">
+                        <div *ngIf="address.errors != null" class="errorMessage">
+                            Address is required.address
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%" style="font-weight: bold;">Date of Birth</td>
+                <td>
+                    <p-calendar #dateOfBirth="ngModel" id="dateOfBirth" name="dateOfBirth"
+                        [(ngModel)]="currUser.dateOfBirth" [required]="true" [yearNavigator]="true"
+                        [monthNavigator]="true" [maxDate]="maxDate" [yearRange]="yearRange"></p-calendar>
+                </td>
+                <td>
+                    <div *ngIf="
+                    dateOfBirth.invalid && (dateOfBirth.dirty || dateOfBirth.touched || submitted)" class="errorText">
+                        <div *ngIf="email.errors != null" class="errorMessage">
+                            Date of Birth is required.
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%" style="font-weight: bold;">Account Type</td>
+                <td width="30%">
+                    <!-- <h4 *ngIf="currUser.role == 0">CUSTOMER</h4>
+                        <h4 *ngIf="currUser.role == 1">SELLER</h4> -->
+                    <p-selectButton id="role" name="role" #role="ngModel" [options]="stateOptions"
+                        [(ngModel)]="formRole" optionLabel="label" optionValue="value" required="true" [disabled]=true>
+                    </p-selectButton>
+                </td>
+            </tr>
+        </table>
+        <div class="account-save-button">
+            <br />
+            <span>
+                <button pButton label="Save" type="submit" class="p-button-rounded p-button-outlined"></button>
+            </span>
+        </div>
+    </form>
+
+    <form #changePasswordForm="ngForm" (ngSubmit)="changePassword(changePasswordForm)" class="changePasswordForm">
+        <p-accordion>
+            <p-accordionTab header="Change Password">
+                <div *ngIf="changePwSuccess == true" class="boxSuccessMessage">
+                    {{changePwMessage}}
+                </div>
+                <div *ngIf="changePwError == true" class="boxErrorMessage">
+                    {{changePwMessage}}
+                </div>
+                <table width="100%">
+                    <tr>
+                        <td width="50%" style="font-weight: bold;">Old Password</td>
+                        <td width="100%">
+                            <input #oldPassword="ngModel" id="oldPassword" name="oldPassword" type="password"
+                                [(ngModel)]="oldPw" required pInputText />
+                        </td>
+                        <td>
+                            <div *ngIf="oldPassword.invalid && (oldPassword.dirty || oldPassword.touched )"
+                                class="errorText">
+                                <div *ngIf="oldPassword.errors?.['required']" class="errorMessage">
+                                    Old Password is required.
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50%" style="font-weight: bold;">New Password</td>
+                        <td width="100%">
+                            <input #newPassword="ngModel" id="newPassword" name="newPassword" type="password"
+                                [(ngModel)]="newPw" required pInputText />
+                        </td>
+                        <td>
+                            <div *ngIf="newPassword.invalid && (newPassword.dirty || newPassword.touched )"
+                                class="errorText">
+                                <div *ngIf="newPassword.errors?.['required']" class="errorMessage">
+                                    New Password is required.
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50%" style="font-weight: bold;">Re-enter new password</td>
+                        <td width="100%">
+                            <input #confirmPassword="ngModel" id="confirmPassword" name="confirmPassword"
+                                type="password" [(ngModel)]="confirmPw" required pInputText />
+                        </td>
+                        <td>
+                            <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched )"
+                                class="errorText">
+                                <div *ngIf="confirmPassword.errors?.['required']" class="errorMessage">
+                                    Confirmation of new password is required.
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="password-save-button">
+                    <br />
+                    <span>
+                        <button pButton label="Save" type="submit" class="p-button-rounded p-button-outlined"></button>
+                    </span>
+                </div>
+            </p-accordionTab>
+        </p-accordion>
+    </form>
+
+    <p>Manage your Wallet</p>
+
+    <hr style="opacity: 0.1" />
+
+    <form>
+        <div *ngIf="deleteCCSuccess == true" class="boxSuccessMessage">
+            {{deleteCCmessage}}
+        </div>
+
+        <div *ngIf="deleteCCError == true" class="boxErrorMessage">
+            {{deleteCCmessage}}
+        </div>
+        <p-table [value]="creditCards" [rowHover]="true">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        Credit Card Number
+                    </th>
+                    <th>
+                        Name On Card
+                    </th>
+                    <th>
+                        CVV
+                    </th>
+                    <th>
+                        Expiry Date
+                    </th>
+                    <th style="width: 5rem"></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-creditCard>
+                <tr>
+                    <td>
+                        **** **** **** {{ creditCard.creditCardNumber.slice(12, 17) }}
+                    </td>
+                    <td>
+                        {{ creditCard.holderName }}
+                    </td>
+                    <td>
+                        **{{ creditCard.cvv.slice(2,3) }}
+                    </td>
+                    <td>
+                        {{ creditCard.expiryDate.toString().slice(0,10) }}
+                    </td>
+                    <td>
+                        <button pButton Ripple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                            (click)="deleteCreditCard(creditCard)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                    You have registered
+                    {{ creditCards ? creditCards.length : 0 }} credit cards in your wallet.
+                </div>
+            </ng-template>
+        </p-table>
+        <!-- <button pButton type="button" icon="pi pi-plus" label="Add New Credit Card" type="submit"
+            class="p-button-outlined"></button> -->
+    </form>
+    <form #createCCForm="ngForm" (ngSubmit)="create(createCCForm)" class="createCCForm">
+        <p-accordion>
+            <p-accordionTab header="Add New Credit Card">
+                <div *ngIf="resultCCSuccess == true" class="boxSuccessMessage">
+                    {{ccMessage}}
+                </div>
+
+                <div *ngIf="resultCCError == true" class="boxErrorMessage">
+                    {{ccMessage}}
+                </div>
+                <table width="100%">
+                    <tr>
+                        <td width="50%" style="font-weight: bold;">Credit Card Holder Name</td>
+                        <td width="100%">
+                            <input #holderName="ngModel" id="holderName" name="holderName" type="text"
+                                [(ngModel)]="newCC.holderName" required pInputText />
+                        </td>
+                        <td>
+                            <div *ngIf="holderName.invalid && (holderName.dirty || holderName.touched )"
+                                class="errorText">
+                                <div *ngIf="holderName.errors?.['required']" class="errorMessage">
+                                    Name is required.
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50%" style="font-weight: bold;">Credit Card Number</td>
+                        <td width="100%">
+                            <input #creditCardNumber="ngModel" id="creditCardNumber" name="creditCardNumber" type="text"
+                                [(ngModel)]="newCC.creditCardNumber" required pInputText />
+                        </td>
+                        <td>
+                            <div *ngIf="creditCardNumber.invalid && (creditCardNumber.dirty || creditCardNumber.touched )"
+                                class="errorText">
+                                <div *ngIf="creditCardNumber.errors?.['required']" class="errorMessage">
+                                    Credit Card Number is required.
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50%" style="font-weight: bold;">CVV</td>
+                        <td width="100%">
+                            <input #cvv="ngModel" id="cvv" name="cvv" type="text" [(ngModel)]="newCC.cvv" required
+                                pInputText />
+                        </td>
+                        <td>
+                            <div *ngIf="cvv.invalid && (cvv.dirty || cvv.touched )" class="errorText">
+                                <div *ngIf="cvv.errors?.['required']" class="errorMessage">
+                                    CVV is required.
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50%" style="font-weight: bold;">Expiry Date</td>
+                        <td width="100%">
+                            <p-calendar #expiryDate="ngModel" id="expiryDate" name="expiryDate"
+                                [(ngModel)]="newCC.expiryDate" [required]="true" [yearNavigator]="true"
+                                [monthNavigator]="true" [minDate]="maxDate" [yearRange]="yearRange"></p-calendar>
+                        </td>
+                        <td>
+                            <div *ngIf="expiryDate.invalid && (expiryDate.dirty || expiryDate.touched)"
+                                class="errorText">
+                                <div *ngIf="expiryDate.errors != null && expiryDate.errors['required']"
+                                    class="errorMessage">
+                                    Expiry Date is required.
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <button pButton (click)="clearCC()" type="reset" value="Clear"
+                                class="p-button-rounded p-button-text">
+                                Clear
+                            </button>
+                            &nbsp;
+
+                            <button pButton type="submit" class="p-button-rounded p-button-outlined" value="Create">
+                                Submit
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </p-accordionTab>
+        </p-accordion>
+    </form>
+
+
+</div>

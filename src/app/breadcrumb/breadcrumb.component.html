@@ -1,0 +1,51 @@
+<br />
+
+<section id="breadcrumb" class="breadcrumb">
+  &#9776; Home
+
+  <span
+    *ngIf="
+      pageName == 'myTransactions' ||
+      pageName == 'myCart' ||
+      pageName == 'customerDisputes'
+    "
+  >
+    > Customer
+  </span>
+
+  <span *ngIf="pageName == 'myCart'"> > My Cart </span>
+  
+  <span *ngIf="pageName == 'myTransactions'">
+    > View My Transactions
+  </span>
+
+  <span
+    *ngIf="
+      pageName == 'createNewProduct' ||
+      pageName == 'viewAllProducts' ||
+      pageName == 'viewProductDetails' ||
+      pageName == 'updateProduct' ||
+      pageName == 'deleteProduct'
+    "
+  >
+    > Products
+  </span>
+
+  <span *ngIf="pageName == 'createNewProduct'"> > Create New Product </span>
+
+  <span *ngIf="pageName == 'viewAllProducts'"> > View All Products </span>
+
+  <span *ngIf="pageName == 'viewProductDetails'"> > View Product Details </span>
+
+  <span *ngIf="pageName == 'updateProduct'"> > Update Product </span>
+
+  <span *ngIf="pageName == 'deleteProduct'"> > Delete Product </span>
+
+  <span *ngIf="pageName == 'productByCategory'">
+    > View Product By Categories
+  </span>
+
+  <span *ngIf="pageName == 'myRewards'"> > Rewards > My Rewards </span>
+  <span *ngIf="pageName == 'allRewards'"> > Rewards > All Rewards </span>
+</section>
+<br />

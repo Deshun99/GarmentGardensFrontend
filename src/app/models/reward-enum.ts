@@ -1,0 +1,5 @@
+export enum RewardEnum {
+    PROMOCODE10 = 'PROMOCODE10',
+    PROMOCODE35 = 'PROMOCODE35',
+    PROMOCODE60 = 'PROMOCODE60'
+}

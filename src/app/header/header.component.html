@@ -1,0 +1,59 @@
+<header>
+  <p-menubar>
+    <ng-template pTemplate="start">
+      <a href="#" routerLink="/">
+        <img src="assets/images/gg-brandlogo-glow.png" width="20%" height="20%" />
+      </a>
+    </ng-template>
+
+    <div *ngIf="loginError == true" style="text-align: center;" class="boxErrorMessage">
+      Invalid login credentials!
+    </div>
+
+    <div *ngIf="sessionService.getIsLogin() == false" style="text-align: center">
+      <input pInputText placeholder="Username" type="text" [(ngModel)]="username" required maxlength="32" />
+      &nbsp;
+      <input pInputText placeholder="Password" type="password" [(ngModel)]="password" required maxlength="32" />
+      &nbsp;
+      <div style="padding: 25px 0px 5px 0px;">
+        <button pButton type="reset" value="Clear" class="p-button-rounded p-button-text">
+          Clear
+        </button>
+
+        <button pButton type="button" (click)="userLogin()" class="p-button-rounded p-button-text" value="Login">
+          Login
+        </button>
+
+        <a routerLink="/systemAdministration/createNewUser">
+          <button pButton type="button" class="p-button-rounded p-button-outlined" value="Register">
+            Register
+          </button></a>
+      </div>
+    </div>
+
+
+
+    <div *ngIf="sessionService.getIsLogin() == true" style="text-align: center; width: 200px">
+      <!-- <h3>
+        Hi,
+        {{ sessionService.getCurrentUser().firstName }}
+        {{ sessionService.getCurrentUser().lastName }}
+      </h3> 
+      &nbsp; -->
+
+      <div style="padding: 5px;">
+        <span>{{sessionService.getCurrentUser().role}}</span>
+        <!-- <span *ngIf="sessionService.getCurrentUser().role == 1">SELLER</span> -->
+      </div>
+
+      <button pButton type="button" icon="pi pi-user" class="p-button-rounded" (click)="viewProfile()"></button>
+
+
+      <br />
+      <br />
+      <button pButton type="button" (click)="userLogout()" class="p-button-rounded p-button-outlined" value="Logout">
+        Logout
+      </button>
+    </div>
+  </p-menubar>
+</header>

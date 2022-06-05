@@ -1,0 +1,305 @@
+<app-breadcrumb [pageName]="'myTransactions'"></app-breadcrumb>
+
+<h3 style="color: white">My Orders</h3>
+
+<div class="garmentCard dataHeader">
+  <div
+    style="display: flex; flex: 4; align-items: center; justify-content: center"
+  >
+    <table>
+      <tr>
+        <td>
+          <h3 class="product-price">Lifetime Orders</h3>
+          <h3 style="color: white">{{ orders?.length }}</h3>
+        </td>
+        <td>
+          <h3 class="product-price">Lifetime Spendings</h3>
+          <h3 style="color: white">${{ lifetimeSpendings }}</h3>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<br />
+<!-- <div class="garmentCard">
+  <p-dataView
+    #dv
+    [value]="orders"
+    [paginator]="true"
+    [rows]="9"
+    filterBy="lineItem.lineItemId"
+    [sortField]="sortField"
+    [sortOrder]="sortOrder"
+  > -->
+<!-- <ng-template pTemplate="header">
+      <div class="dataHeader">
+        <p-dropdown
+          [options]="sortOptions"
+          [(ngModel)]="sortKey"
+          placeholder="Sort By"
+          (onChange)="onSortChange($event)"
+          [style]="{ 'min-width': '15em' }"
+          class="glow"
+        >
+        </p-dropdown>
+        <span>
+          <i class="pi pi-search"></i>
+          &nbsp;
+          <input
+            class="glow"
+            type="search"
+            pInputText
+            placeholder="Search by Name"
+            (input)="dv.filter($any($event.target).value, 'contains')"
+          />
+        </span>
+      </div>
+    </ng-template> -->
+
+<!-- <ng-template let-order pTemplate="listItem">
+      <div class="product-list-item glow">
+        <div class="product-list-detail">
+          <span class="product-price">Order:</span>
+          <span class="product-price-2">{{ order.orderId }}</span>
+        </div>
+
+        &nbsp;
+        <div class="product-list-action">
+          <span class="tx-details">Total Order Items</span>
+          <span class="product-price-2">{{ order.totalOrderItem }}</span>
+        </div>
+        &nbsp;
+        <div class="product-list-action">
+          <span class="tx-details">Total Quantity</span>
+          <span class="product-price-2">{{ order.totalQuantity }}</span>
+        </div>
+        &nbsp;
+        <div class="product-list-action">
+          <span class="tx-details">Total Amount</span>
+          <span class="product-price-2">${{ order.totalAmount }}</span>
+        </div>
+        &nbsp;
+        <div class="product-list-action">
+          <span class="tx-details">Refund?</span>
+          <span class="product-price-2">{{ order.voidRefund? '✅' : '❌'}}</span>
+        </div>
+        &nbsp;
+        <div class="product-list-action">
+          <span class="tx-details">Delivery Status</span>
+          <span class="product-price-2">{{ order.deliveryStatus }}</span>
+        </div>
+      </div>
+    </ng-template> -->
+<!-- </p-dataView>
+</div> -->
+
+<div class="garmentCard">
+  <p-accordion [multiple]="true">
+    <p-accordionTab
+      *ngFor="let order of orders"
+      header="Order #{{ order.orderId }}"
+    >
+      <table>
+        <tr>
+          <td width="70%">
+            <div class="product-list-item">
+              <div class="product-list-action">
+                <span class="tx-details">Total Order Items</span>
+                <span class="product-price-2">{{ order.totalOrderItem }}</span>
+              </div>
+              &nbsp;
+              <div class="product-list-action">
+                <span class="tx-details">Total Quantity</span>
+                <span class="product-price-2">{{ order.totalQuantity }}</span>
+              </div>
+              &nbsp;
+              <div class="product-list-action">
+                <span class="tx-details">Total Amount</span>
+                <span class="product-price-2">${{ order.totalAmount }}</span>
+              </div>
+              &nbsp;
+              <div class="product-list-action">
+                <span class="tx-details">Refund?</span>
+                <span class="product-price-2">{{
+                  order.voidRefund ? "✅" : "❌"
+                }}</span>
+              </div>
+              &nbsp;
+              <div class="product-list-action">
+                <span class="tx-details">Delivery Status</span>
+                <span class="product-price-2">{{ order.deliveryStatus }}</span>
+              </div>
+              &nbsp;
+            </div>
+          </td>
+          <td style="width: 5%"></td>
+          <td>
+            <div class="product-list-item">
+              &nbsp;
+              <div>
+                <button
+                  pButton
+                  label="Open Dispute"
+                  type="button"
+                  class="p-button"
+                  (click)="openDispute(order)"
+                  style="margin: 10px"
+                ></button>
+              </div>
+              &nbsp;
+              <div class="product-list-action">
+                <a href="https://forms.gle/h27U9N4vJwzugSRB6" target="_blank">
+                  <button
+                    pButton
+                    label="Rate Us"
+                    type="button"
+                    class="p-button-outlined"
+                    style="margin: 10px"
+                  ></button>
+                </a>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <table id="tableProductCatalogue" style="width: 100%">
+        <thead>
+          <tr>
+            <th>Line Item ID</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Sub Total</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let lineItem of order.lineItems">
+            <td>{{ lineItem.lineItemId }}</td>
+            <td>{{ lineItem.product?.name }}</td>
+            <td>{{ lineItem.quantity }}</td>
+            <td>${{ lineItem.unitPrice }}</td>
+            <td>${{ lineItem.subTotal }}</td>
+            <td>
+              <u
+                (click)="reviewProductDialogue(lineItem)"
+                style="cursor: pointer"
+                >Review</u
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </p-accordionTab>
+  </p-accordion>
+</div>
+<p-dialog
+  header="Review Product"
+  position="right"
+  [(visible)]="reviewProduct"
+  [style]="{ width: '50vw' }"
+>
+  <div style="text-align: center">
+    <h1>Leave a Review!</h1>
+
+    <div>
+      <div *ngIf="showMessage && error == false" class="boxSuccessMessage">
+        {{ message }}
+      </div>
+
+      <div *ngIf="showMessage && error == true" class="boxErrorMessage">
+        {{ message }}
+      </div>
+    </div>
+
+    <div class="garmentCard" style="width: 100%">
+      <form
+        #createRatingForm="ngForm"
+        (ngSubmit)="review(createRatingForm)"
+        class=""
+        createRatingForm
+      >
+        <table width="100%">
+          <tr>
+            <td width="20%" style="font-weight: bold">Product ID</td>
+            <td width="50%">{{ selectedProduct?.productId }}</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="25%" style="font-weight: bold">Product ID</td>
+            <td width="50%">{{ selectedProduct?.name }}</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="20%" style="font-weight: bold">Number of Stars</td>
+            <td>
+              <!-- <input
+                style="width: 100%"
+                pInputText
+                placeholder="stars"
+                id="stars"
+                type="text"
+                name="stars"
+                #stars="ngModel"
+                [(ngModel)]="newRating.numberOfStars"
+                required="true"
+              /> -->
+              <p-rating
+                #stars="ngModel"
+                style="width: 100%"
+                [(ngModel)]="newRating.numberOfStars"
+                [cancel]="false"
+              ></p-rating>
+            </td>
+            <td>
+              <div
+                *ngIf="stars.invalid && (stars.dirty || stars.touched)"
+                class="errorText"
+              >
+                <div *ngIf="stars.errors?.['required']" class="errorText">
+                  No of Stars is required.
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td width="25%" style="font-weight: bold">Description</td>
+            <td>
+              <input
+                style="width: 100%"
+                pInputText
+                placeholder="Description"
+                id="description"
+                type="text"
+                name="description"
+                #description="ngModel"
+                [(ngModel)]="newRating.description"
+                required="true"
+              />
+            </td>
+            <td>
+              <div
+                *ngIf="
+                  description.invalid &&
+                  (description.dirty || description.touched)
+                "
+                class="errorText"
+              >
+                <div *ngIf="description.errors?.['required']" class="errorText">
+                  Description is required.
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <br />
+        <div style="padding: 25px 0px 5px 0px" style="text-align: center">
+          <span>
+            <p-button label="Submit!" type="submit"></p-button>
+          </span>
+        </div>
+      </form>
+    </div>
+  </div>
+</p-dialog>

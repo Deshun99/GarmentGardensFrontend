@@ -1,0 +1,67 @@
+<aside class="sidebar">
+  <div
+    class="garmentCard myCartTab"
+    (click)="goToCart()"
+    style="cursor: pointer; width: 100%"
+  >
+    <i class="pi pi-shopping-cart" style="font-size: 2rem; color: white"></i>
+  </div>
+  <br />
+
+  <div class="garmentCard" style="font-size: medium; width: 100%">
+    <h2>My Chlorophyll:</h2>
+
+    <h2 style="color: #c5e1a5" *ngIf="this.sessionService.getIsLogin()">{{ chlorophyll }}</h2>
+    <h3 style="color: #c5e1a5" *ngIf="!this.sessionService.getIsLogin()" >Login To View</h3>
+<!--     <i
+      class="pi pi-refresh"
+      (click)="onRefresh()"
+      style="cursor: pointer; font-size: 1.5rem; color: white"
+    ></i> -->
+  </div>
+
+  <br />
+
+  <a href="https://savetheearth.org/">
+    <figure class="advertisement">
+      <img
+        src="assets/images/ad{{ ads[0] }}.png"
+        height="100%"
+        width="100%"
+        alt="Advertisement 1"
+      />
+    </figure>
+  </a>
+
+  <br />
+  <a href="https://savetheearth.org/">
+    <figure class="advertisement">
+      <img
+        src="assets/images/ad{{ ads[1] }}.png"
+        height="100%"
+        width="100%"
+        alt="Advertisement 1"
+      />
+    </figure>
+  </a>
+
+  <br />
+  <a href="https://savetheearth.org/">
+    <figure class="advertisement">
+      <img
+        src="assets/images/ad{{ ads[2] }}.png"
+        height="100%"
+        width="100%"
+        alt="Advertisement 3"
+      />
+    </figure>
+  </a>
+</aside>
+
+<p-dialog
+  position="top"
+  [(visible)]="loginDialogue"
+  [style]="{ width: '50vw' }"
+>
+  <h1 style="color: red">Please Login!</h1>
+</p-dialog>
