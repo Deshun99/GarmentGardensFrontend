@@ -28,5 +28,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## GarmentGardens Backend (JSF Client + JavaEE Backend)
 
-Link to backend: https://github.com/Deshun99/GarmentGardentBackend
+Link to backend: https://github.com/Deshun99/GarmentGardensBackend
 
